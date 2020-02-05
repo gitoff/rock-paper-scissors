@@ -1,0 +1,125 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div id="scoreboard">
+    <h3>Player Score</h3>
+    <div id='player-score'>0</div>
+    <h3>Computer Score</h3>
+    <div id='computer-score'>0</div>
+  </div>
+
+  <button id='rock-btn'>Rock</button>
+  <button id='paper-btn'>Paper</button>
+  <button id='scissors-btn'>Scissors</button>
+
+  <script>
+    let playerSelection = '';
+    let moves = ['rock', 'paper', 'scissors'];
+    let scoreBoard = document.querySelector('#scoreboard');
+    let playerScore = document.querySelector('#player-score');
+    let computerScore = document.querySelector('#computer-score');
+    let result = document.createElement('p');
+
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => button.addEventListener('click', function() {
+      
+      switch (button.id) {
+        case 'rock-btn':
+        playerSelection = 'rock';
+        break;
+        case 'paper-btn':
+        playerSelection = 'paper';
+        break;
+        case 'scissors-btn':
+        playerSelection = 'scissors';
+        break;
+      }
+
+      // Check to reset score
+      if ( !(result.textContent == '') ) {
+        playerScore.textContent = '0';
+        computerScore.textContent = '0';
+        result.textContent = '';
+        scoreBoard.removeChild(result);
+      }
+      
+      playRound(playerSelection, computerPlay());
+
+      if (playerScore.textContent == '5' && computerScore.textContent == '5') {
+        let t = document.createTextNode("It's a tie!")
+        result.appendChild(t);
+        scoreBoard.appendChild(result);
+      } else if (playerScore.textContent == '5') {
+        let t = document.createTextNode("You Win!")
+        result.appendChild(t);
+        scoreBoard.appendChild(result);
+      } else if (computerScore.textContent == '5') {
+        let t = document.createTextNode("You Lose!")
+        result.appendChild(t);
+        scoreBoard.appendChild(result);
+      }
+    }));
+
+
+  function game() {
+
+    /* Play 5 rounds
+    for (let i = 0; i < 5; i++) {
+      console.log(playRound(prompt(), computerPlay()))
+    } */
+
+    if (playerScore > computerScore) {
+      console.log('You Win!')
+    } else if (playerScore < computerScore) {
+      console.log('You Lose!')
+    } else {
+      console.log("It's a tie!")
+    }
+  }
+
+  function playRound(playerSelection, computerSelection) {
+    if (playerSelection == 'rock' && computerSelection == 'scissors') {
+      playerScore.textContent++
+      return 'You Win! Rock beats Scissors'
+    } else if (playerSelection == 'rock' && computerSelection == 'paper') {
+      computerScore.textContent++
+      return 'You Lose! Paper beats Rock'
+    } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
+      computerScore.textContent++
+      return 'You Lose! Scissors beats Paper'
+    } else if (playerSelection == 'paper' && computerSelection == 'rock') {
+      playerScore.textContent++
+      return 'You Win! Paper beats Rock'
+    } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
+      computerScore.textContent++
+      return 'You Lose! Rock beats Scissors'
+    } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
+      playerScore.textContent++
+      return 'You Win! Scissors beats Paper'
+    } else {
+      return "It's a draw."
+    }
+  }
+
+  function computerPlay() {
+    return moves[random(0, moves.length)];
+  }
+
+  function random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  
+  // game()
+  </script>
+</body>
+</html>
